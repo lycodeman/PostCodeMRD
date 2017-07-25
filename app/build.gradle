@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+
+// 定义一个打包时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+    }
+
+    buildTypes {
+        release {
+            //混淆
+            minifyEnabled false
+            //Zipalign优化
+//            zipAlignEnabled true
+            // 移除无用的resource文件
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    externalNativeBuild {
+//        cmake {
+//            path "CMakeLists.txt"
+//        }
+//    }
+
+//设置虚拟机堆内存空间大小，避免在编译期间OOM
+//    dexOptions {
+//        incremental true
+//        javaMaxHeapSize "4g"
+//    }
+    //引入java8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //打包不检查
+//    lintOptions {
+//        checkReleaseBuilds false
+//        abortOnError false
+//    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    /*----------------------leakcanary内存泄漏测试--------------------------*/
+    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    /*------------------logger-------------------*/
+    compile project(':httplibrary')
+    compile 'com.jakewharton:butterknife:8.6.0'
+    apt 'com.jakewharton:butterknife-compiler:8.6.0'
+    /*-------------dagger-------------*/
+    compile 'com.google.dagger:dagger:2.11'
+    apt 'com.google.dagger:dagger-compiler:2.11'
+    /*-------------添加java 注解库-------------*/
+    compile 'org.glassfish:javax.annotation:10.0-b28'
+    /*-------------BaseRecyclerViewAdapterHelper------------*/
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    /*-------------glide------------*/
+//    compile 'com.github.bumptech.glide:glide:4.0.0-RC0'
+//    compile 'com.github.bumptech.glide:compiler:4.0.0-RC0'
+    /*-------------glide默认是httpconnection,加这个是换成okhttp------------*/
+//    compile 'com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0'
+//    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+
+    /*-----------------------jsoup-------------------------*/
+    compile 'org.jsoup:jsoup:1.9.2'
+    /*-----------------------retrofit2 String转换-------------------------*/
+    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    /*-----------------------smartrefresh-------------------------*/
+//    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.2'
+//    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.2'//没有使用特殊Header，可以不加这行
+
+}

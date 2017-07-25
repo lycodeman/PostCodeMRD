@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/random_pic"
+        android:icon="@mipmap/random_pic"
+        android:title="随机趣图"/>
+    <item
+        android:id="@+id/random_df"
+        android:icon="@mipmap/random_content"
+        android:title="随机笑话" />
+    <item
+        android:icon="@mipmap/random_content"
+        android:title="随机笑话" />
+
+</menu>

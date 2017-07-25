@@ -1,0 +1,1 @@
+基于Retrofit2+RxJava2+MVP+Dagger2的框架内置封装些许工具类，便于快速开发，MVP模式中省略Moudle的搭建
